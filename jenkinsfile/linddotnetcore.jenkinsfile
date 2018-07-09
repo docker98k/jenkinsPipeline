@@ -1,0 +1,58 @@
+
+pipeline {
+    agent {
+ node {
+        label 'mac'
+    }
+    }
+    stages {
+        stage('scm') {
+            steps {
+                echo 'scm...'
+                checkout([$class: 'GitSCM', branches: [[name: '*/dev']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '012f0d4e-47e2-48ce-8b9e-cd399e9b3d61', url: 'git@github.com:bfyxzls/LindDotNetCore.git']]])
+            }
+        }        
+        stage('build') {
+            steps {
+               echo 'build...'
+               script {
+
+                try{
+                sh returnStdout: true, script: "docker run -v $workspace/:/src --workdir=/src/LindDotNetCore.Api --user root --tty --rm microsoft/dotnet:2.0.0-sdk dotnet build" //可以用自己的 mvn clean deploy
+                }
+                catch(err){
+                    echo err
+                }
+             }
+           }
+        }
+        
+        stage('test') {
+            steps {
+                echo 'test...'
+            }
+        }
+        
+         stage('building image') {
+            steps {
+                echo 'building image...'
+                script{
+                  sh "docker build --pull -t linddotnetcore:1 $workspace"
+                }
+                
+            }
+        }
+        stage('deploying') {
+            steps {
+                echo 'deploying'
+                 sh """ 
+            docker tag linddotnetcore:1 ${config.registry}/linddotnetcore:1
+            docker tag linddotnetcore:1 ${config.registry}/linddotnetcore:latest
+            docker push ${config.registry}/linddotnetcore:1
+            docker push ${config.registry}/linddotnetcore:latest
+                    """
+            }
+        }
+    }
+    
+}
