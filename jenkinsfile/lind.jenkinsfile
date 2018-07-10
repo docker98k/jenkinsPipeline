@@ -1,5 +1,8 @@
 @Library("lind-library") _
+    pipeline {
+
 agent {label 'mac'}
+ stages {
 stage('scm') {
     script {
       gitCheckout  {
@@ -10,4 +13,5 @@ stage('scm') {
              }
      
   }
-
+}
+}
