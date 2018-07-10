@@ -23,6 +23,11 @@ def call(Map pipelineParams) {
                         dotnetcoreBuild{
                             workspace = pipelineParams.workspace
                         }
+                        dockerImageBuild{
+                            imageName=pipelineParams.imageName
+                            tagId=pipelineParams.tagId
+                            context=pipelineParams.context
+                        }
                     }
                 }
             }

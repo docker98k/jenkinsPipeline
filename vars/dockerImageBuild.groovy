@@ -3,7 +3,9 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
-    
+      stage('build') {
+script{
+    echo "building image "+config.imageName+":"+config.tagId
     if (config.imageName == null ||config.imageName == 'null' || config.imageName == '') {
     	throw new Exception("image name is missing!")
     } 
@@ -15,5 +17,6 @@ def call(body) {
     } 
 
     sh "docker build --pull -t ${config.imageName}:${config.tagId} ${config.context}"
-
+   }
+ }
 }
