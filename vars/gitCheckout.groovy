@@ -4,7 +4,8 @@ def call(body) {
     body.delegate = config
     body()
     stage('scm') {
-script{
+    script{
+    echo "Checkout Project"
     echo 'Checking out code from "' + config.repoUrl + '" with credentialsId "' + \
         config.credentialsId + '" ...'
     

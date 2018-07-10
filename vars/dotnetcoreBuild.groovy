@@ -4,7 +4,7 @@ def call(body) {
     body.delegate = config
     body()
     stage('building') {
-                echo 'building...'
+                echo 'Building DotNet Project'
                 script {
                     sh returnStdout: true, script: "docker run -v $workspace/:/src/  --workdir=${config.workspace} --user root --tty --rm microsoft/dotnet:2.0.0-sdk dotnet build"
                 }   

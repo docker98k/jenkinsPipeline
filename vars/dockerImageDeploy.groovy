@@ -5,7 +5,9 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
-
+    stage('deploy') {
+    script{
+    echo "Deploy Image"
     if (config.imageName == null ||config.imageName == 'null' || config.imageName == '') {
     	throw new Exception("image name is missing!")
     } 
@@ -18,4 +20,6 @@ def call(body) {
         docker push ${config.registry}/${config.imageName}:${config.tagId}
         docker push ${config.registry}/${config.imageName}:latest
        """
+}
+ }
 }

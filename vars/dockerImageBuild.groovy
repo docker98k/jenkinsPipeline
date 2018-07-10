@@ -3,9 +3,9 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
-      stage('build') {
-script{
-    echo "building image "+config.imageName+":"+config.tagId
+    stage('buildImage') {
+    script{
+    echo "Building Image"
     if (config.imageName == null ||config.imageName == 'null' || config.imageName == '') {
     	throw new Exception("image name is missing!")
     } 
