@@ -1,6 +1,6 @@
-@Library("lind-library") _
-    pipeline {
 
+    pipeline {
+@Library("lind-library") _
 agent {label 'mac'}
  stages {
 stage('scm') {
