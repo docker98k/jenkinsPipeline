@@ -1,8 +1,4 @@
-def call(body) {
-    def config = [:]
-    body.resolveStrategy = Closure.DELEGATE_FIRST
-    body.delegate = config
-    body()
+def call(Map pipelineParams) {
 
     pipeline {
         agent { label 'build-server' }
@@ -19,10 +15,13 @@ def call(body) {
                 steps{
                     script{
                         gitCheckout{
-                            repoUrl = config.repoUrl
-                            credentialsId = config.credentialsId
-                            branches = config.branches
-                            commit = config.commit
+                            repoUrl = pipelineParams.repoUrl
+                            credentialsId = pipelineParams.credentialsId
+                            branches = pipelineParams.branches
+                            commit = pipelineParams.commit
+                        }
+                        dotnetcoreBuild{
+                            workspace = pipelineParams.workspace
                         }
                     }
                 }
