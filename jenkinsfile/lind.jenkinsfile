@@ -1,10 +1,10 @@
 @Library("lind-library") _
 
-          servicePipeline ( {
+          servicePipeline ([
                      repoUrl = "git@github.com:bfyxzls/LindDotNetCore.git"
                      credentialsId = "012f0d4e-47e2-48ce-8b9e-cd399e9b3d61"
                      branches = "dev"
                      workspace = "/src/LindDotNetCore.Api"
-                    })
+          ])
              
      
