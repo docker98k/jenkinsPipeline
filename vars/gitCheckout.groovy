@@ -8,7 +8,7 @@ def call(body) {
         config.credentialsId + '" ...'
     // checkout source from git
         checkout(changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: config.branches]], \
-            doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'UserIdentity', email: 'ci@git.cn', name: 'CI@git']], submoduleCfg: [], \
+            doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'UserIdentity', email: 'bfyxzls@sina.com', name: 'bfyxzls']], submoduleCfg: [], \
             userRemoteConfigs: [[credentialsId: config.credentialsId, url: config.repoUrl]]])
     
 }
