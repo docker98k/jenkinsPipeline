@@ -12,10 +12,23 @@ def call(Map pipelineParams) {
                     }
                 }
             }
+             
             stage('CI') {
                 steps{
+                   echo ".net core项目编译，测试，发布，打包镜像，上传到仓库..." 
                     script{
-                        echo ".net core项目编译，测试，发布，打包镜像，上传到仓库..." 
+                         stage('scm') {
+     echo '从源代码仓库下载项目'
+     script{
+        gitCheckout{
+        repoUrl = pipelineParams.repoUrl
+        credentialsId = pipelineParams.credentialsId
+        branches = pipelineParams.branches
+        commit = pipelineParams.commit
+      }
+     }
+    }
+
                         dotnetcoreBuild{
                             workspace = pipelineParams.workspace
                             repoUrl = pipelineParams.repoUrl
@@ -26,6 +39,18 @@ def call(Map pipelineParams) {
                             tagId=pipelineParams.tagId
                             context=pipelineParams.context
                         }
+
+       stage('build image') {
+        echo '打包镜像'
+        script{
+          dockerImageBuild{
+            mageName=pipelineParams.imageName
+            tagId=pipelineParams.tagId
+            context=pipelineParams.context
+            }
+        }
+    }
+
                     }
                   }
             }
