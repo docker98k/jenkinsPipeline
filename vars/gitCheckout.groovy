@@ -3,7 +3,7 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
-    echo 'Checking out code from "' + config.repoUrl + '" with credentialsId "' + \
+    echo '迁出项目从仓库 "' + config.repoUrl + '" 授权号 "' + \
         config.credentialsId + '" ...'
     
     checkout([$class: 'GitSCM', branches: [[name: config.branches]], 

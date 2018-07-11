@@ -1,3 +1,4 @@
+// CI、CD入口
 def call(Map pipelineParams) {
 
     pipeline {
@@ -7,7 +8,7 @@ def call(Map pipelineParams) {
             stage('Initialization') {
                 steps {
                     script {
-                       echo "项目初始化..."
+                       echo "持续集成与交付开始..."
                     }
                 }
             }
@@ -28,7 +29,7 @@ def call(Map pipelineParams) {
                     }
                   }
             }
-            stage('Service') {
+            stage('Deploy Service') {
                 steps{
                 script{
                     echo "启动服务..."
