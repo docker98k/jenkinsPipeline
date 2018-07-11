@@ -37,7 +37,7 @@ def call(Map pipelineParams) {
                             echo '打包镜像'
                             script {
                                 dockerImageBuild {
-                                    mageName = pipelineParams.imageName
+                                    imageName = pipelineParams.imageName
                                     tagId = pipelineParams.tagId
                                     context = pipelineParams.context
                                 }
