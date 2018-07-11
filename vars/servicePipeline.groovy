@@ -13,7 +13,7 @@ def call(Map pipelineParams) {
             }
             stage('CI') {
                 steps {
-                    echo ".net core项目编译，测试，发布，打包镜像，上传到仓库..."
+                    echo ".net core项目编译，测试，发布，打包镜像，上传到仓库..." + pipelineParams.imageName
                     script {
                         stage('scm') {
                             echo '从源代码仓库下载项目'
