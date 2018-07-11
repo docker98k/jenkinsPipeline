@@ -13,7 +13,7 @@ def call(Map pipelineParams) {
             }
             stage('CI') {
                 steps {
-                    echo ".net core项目编译，测试，发布，打包镜像，上传到仓库..." + pipelineParams.imageName
+                    echo ".net core项目编译，测试，发布，打包镜像，上传到仓库..."
                     script {
                         stage('scm') {
                             echo '从源代码仓库下载项目'
@@ -26,18 +26,13 @@ def call(Map pipelineParams) {
                                 }
                             }
                         }
-
-                        dotnetcoreBuild {
-                            workspace = pipelineParams.workspace
-                            repoUrl = pipelineParams.repoUrl
-                            credentialsId = pipelineParams.credentialsId
-                            branches = pipelineParams.branches
-                            commit = pipelineParams.commit
-                            imageName = pipelineParams.imageName
-                            tagId = pipelineParams.tagId
-                            context = pipelineParams.context
+                        stage('build project') {
+                            script {
+                                dotnetcoreBuild {
+                                    workspace = pipelineParams.workspace
+                                }
+                            }
                         }
-
                         stage('build image') {
                             echo '打包镜像'
                             script {
