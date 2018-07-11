@@ -7,14 +7,14 @@ def call(Map pipelineParams) {
             stage('Initialization') {
                 steps {
                     script {
-                       echo "项目初始化"
+                       echo "项目初始化..."
                     }
                 }
             }
             stage('CI') {
                 steps{
                     script{
-                        // 编译和发布项目
+                        echo ".net core项目编译，测试，发布，打包镜像，上传到仓库..." 
                         dotnetcoreBuild{
                             workspace = pipelineParams.workspace
                             repoUrl = pipelineParams.repoUrl
@@ -26,11 +26,13 @@ def call(Map pipelineParams) {
                             context=pipelineParams.context
                         }
                     }
-                }
+                  }
             }
             stage('Service') {
+                steps{
                 script{
-                    // 启动服务
+                    echo "启动服务..."
+                 }
                 }
             }
 
