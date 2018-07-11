@@ -1,28 +1,28 @@
 def call(body) {
-    def config = [ : ]
+    def config = [:]
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
 
-    try{
+    try {
         def DOCKER_SERVICE_NAME = "${config.dockerServiceName}"
-        def IMAGE_NAME="${config.registry}/${config.imageName}:${config.tagId}"
-        def ENVIRONMENTS=""
-        def ENVIRONMENTS_ADD=""
+        def IMAGE_NAME = "${config.registry}/${config.imageName}:${config.tagId}"
+        def ENVIRONMENTS = ""
+        def ENVIRONMENTS_ADD = ""
         def PARAM_ENV_ARGS = "${config.environment}"
         def LOG_DRIVER = "${config.logDriver}"
         if ("$PARAM_ENV_ARGS" != null && "$PARAM_ENV_ARGS" != 'null' && "$PARAM_ENV_ARGS" != '') {
-            evaluate("$PARAM_ENV_ARGS").each{key,val->
+            evaluate("$PARAM_ENV_ARGS").each { key, val ->
                 ENVIRONMENTS = "$ENVIRONMENTS --env '${key}=${val}'"
                 ENVIRONMENTS_ADD = "$ENVIRONMENTS_ADD --env-add '${key}=${val}'"
             }
         }
-        def REPLICAS_NUM="${config.replicas}"
+        def REPLICAS_NUM = "${config.replicas}"
         if ("$REPLICAS_NUM" == null || "$REPLICAS_NUM" == 'null' || "$REPLICAS_NUM" == '') {
             REPLICAS_NUM = 1
         }
         echo "REPLICAS_NUM:$REPLICAS_NUM"
-        def LIMITMEMORY="${config.limitMemory}"
+        def LIMITMEMORY = "${config.limitMemory}"
         if ("$LIMITMEMORY" == null || "$LIMITMEMORY" == 'null' || "$LIMITMEMORY" == '') {
             LIMITMEMORY = "1024M"
         }
@@ -33,21 +33,21 @@ def call(body) {
 
         def USEDNETWORK = ""
         echo "NETWORK:$NETWORK"
-        evaluate("$NETWORK").each{
-            USEDNETWORK = " $USEDNETWORK --network $it " 
+        evaluate("$NETWORK").each {
+            USEDNETWORK = " $USEDNETWORK --network $it "
         }
         echo "USEDNETWORK:$USEDNETWORK"
 
-        def PORTS=""
-        evaluate("${config.publish}").each{
-            PORTS = " $PORTS --publish $it " 
+        def PORTS = ""
+        evaluate("${config.publish}").each {
+            PORTS = " $PORTS --publish $it "
         }
 
         def LOG = "--log-driver=fluentd \
                    --log-opt=fluentd-address=fluentd.aliyun.cn:24224 \
                    --log-opt=tag=lind.{{.Name}}.{{.ImageName}} "
 
-        if("$LOG_DRIVER" != null && "$LOG_DRIVER" != 'null' && "$LOG_DRIVER" != '') {
+        if ("$LOG_DRIVER" != null && "$LOG_DRIVER" != 'null' && "$LOG_DRIVER" != '') {
             LOG = " $LOG_DRIVER "
         }
 
@@ -93,7 +93,7 @@ def call(body) {
                 fi
             """
         }
-    }catch(err){
+    } catch (err) {
         currentBuild.result = 'FAILED'
         throw err
     }
