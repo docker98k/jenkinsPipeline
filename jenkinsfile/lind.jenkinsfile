@@ -6,7 +6,7 @@
                      "branches":"dev",
                      "workspace":"/src/LindDotNetCore.Api",
                      "imageName":"linddotnet",
-                     "tagId":"1.0",
+                     "tagId":"2.0",
                      "context":"LindDotNetCore.Api"
           ])
              

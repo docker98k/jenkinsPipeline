@@ -1,6 +1,6 @@
 // 上传镜像
 def call(body) {
-    def config = [registry: "registry.docker.cn"] 
+    def config = [registry:"registry.docker.cn"] 
     body.resolveStrategy = Closure.DELEGATE_FIRST 
     body.delegate = config 
     body() 
